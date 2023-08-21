@@ -10,6 +10,10 @@ class Playlist {
   getSongs = ():Song[] => {
     return this.songs;
   }
+
+  addSong = (song:Song):void => {
+    this.songs.push(song);
+  }
 }
 
 export default Playlist;
