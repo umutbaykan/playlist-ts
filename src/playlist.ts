@@ -28,18 +28,29 @@ class Playlist {
   };
 
   shuffle = (method: methods):Song[] => {
-    const result: Song[] = []
-    this.songs.map((song) => result.push(song));
+    let result: Song[] = [...this.songs];
+    
+    if (method === methods.random) {
+      this.randomise(result);
+    } else if (method === methods.sortByTime) {
+      this.sortByTime(result);
+    }
 
+    result.forEach((song) => console.log(song));
+    return result;
+  }
+
+  private randomise = (result: Song[]): void => {
     for(let i:number = result.length - 1; i > 0; i--) {
       const j:number = Math.floor(Math.random() * (i + 1));
       const temp:Song = result[i];
       result[i] = result[j];
       result[j] = temp;
     }
+  }
 
-    result.forEach((song) => console.log(song));
-    return result;
+  private sortByTime = (result: Song[]): void => {
+    result.sort((a:Song, b:Song) => b.getLength() - a.getLength())
   }
 
   private isSongEqual = (song1: Song, song2: Song): boolean => {

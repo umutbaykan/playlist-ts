@@ -61,5 +61,12 @@ describe("playlist class", () => {
         shuffledSongs[2].getTitle().valueOf() === originalOrder[2].getTitle().valueOf()
       ).toBe(false);
     })
+
+    test("when given the sortByTime settings, should sort songs by length", () => {
+      const shuffledSongs:Song[] = populatedPlaylist.shuffle(methods.sortByTime);
+      
+      expect(shuffledSongs[0].getLength()).toBeGreaterThanOrEqual(shuffledSongs[1].getLength());
+      expect(shuffledSongs[1].getLength()).toBeGreaterThanOrEqual(shuffledSongs[2].getLength());
+    })
   })
 });
