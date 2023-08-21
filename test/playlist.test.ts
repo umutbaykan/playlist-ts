@@ -1,6 +1,6 @@
-import {Playlist} from "../src/playlist";
+import { Playlist } from "../src/playlist";
 import Song from "../src/song";
-import {methods} from "../src/playlist";
+import { methods } from "../src/playlist";
 
 describe("playlist class", () => {
   let playlist: Playlist;
@@ -10,9 +10,9 @@ describe("playlist class", () => {
   beforeEach(() => {
     playlist = new Playlist([]);
     song = new Song("title", "artist", 240);
-    const songLong:Song = new Song("a", "artist", 500);
-    const songShort:Song = new Song("z", "artist", 100);
-    populatedPlaylist = new Playlist([song, songLong, songShort])
+    const songLong: Song = new Song("a", "artist", 500);
+    const songShort: Song = new Song("z", "artist", 100);
+    populatedPlaylist = new Playlist([song, songLong, songShort]);
   });
 
   test("should initialize", () => {
@@ -52,21 +52,44 @@ describe("playlist class", () => {
 
   describe("shuffle method", () => {
     test("when given the random settings, should randomise the order of songs", () => {
-      const originalOrder:Song[] = populatedPlaylist.getSongs();
-      const shuffledSongs:Song[] = populatedPlaylist.shuffle(methods.random);
+      const originalOrder: Song[] = populatedPlaylist.getSongs();
+      const shuffledSongs: Song[] = populatedPlaylist.shuffle(methods.random);
 
       expect(
-        shuffledSongs[0].getTitle().valueOf() === originalOrder[0].getTitle().valueOf() &&
-        shuffledSongs[1].getTitle().valueOf() === originalOrder[1].getTitle().valueOf() &&
-        shuffledSongs[2].getTitle().valueOf() === originalOrder[2].getTitle().valueOf()
+        shuffledSongs[0].getTitle().valueOf() ===
+          originalOrder[0].getTitle().valueOf() &&
+          shuffledSongs[1].getTitle().valueOf() ===
+            originalOrder[1].getTitle().valueOf() &&
+          shuffledSongs[2].getTitle().valueOf() ===
+            originalOrder[2].getTitle().valueOf(),
       ).toBe(false);
-    })
+    });
 
     test("when given the sortByTime settings, should sort songs by length", () => {
-      const shuffledSongs:Song[] = populatedPlaylist.shuffle(methods.sortByTime);
-      
-      expect(shuffledSongs[0].getLength()).toBeGreaterThanOrEqual(shuffledSongs[1].getLength());
-      expect(shuffledSongs[1].getLength()).toBeGreaterThanOrEqual(shuffledSongs[2].getLength());
-    })
-  })
+      const shuffledSongs: Song[] = populatedPlaylist.shuffle(
+        methods.sortByTime,
+      );
+
+      expect(shuffledSongs[0].getLength()).toBeGreaterThanOrEqual(
+        shuffledSongs[1].getLength(),
+      );
+      expect(shuffledSongs[1].getLength()).toBeGreaterThanOrEqual(
+        shuffledSongs[2].getLength(),
+      );
+    });
+
+    test("when given the alphabetical settings, should sort by alphabetical order", () => {
+      const shuffledSongs: Song[] = populatedPlaylist.shuffle(
+        methods.alphabetical,
+      );
+      expect(shuffledSongs[0].getTitle()).toBe("a");
+      expect(shuffledSongs[1].getTitle()).toBe("title");
+      expect(shuffledSongs[2].getTitle()).toBe("z");
+    });
+
+    test("returns an empty array if given an empty one", () => {
+      const shuffledSongs: Song[] = playlist.shuffle(methods.alphabetical);
+      expect(shuffledSongs).toEqual([]);
+    });
+  });
 });

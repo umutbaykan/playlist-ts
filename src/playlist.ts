@@ -1,9 +1,9 @@
 import Song from "./song";
- 
+
 enum methods {
   random = 1,
   sortByTime,
-  alphabetical
+  alphabetical,
 }
 
 class Playlist {
@@ -27,31 +27,37 @@ class Playlist {
     );
   };
 
-  shuffle = (method: methods):Song[] => {
+  shuffle = (method: methods): Song[] => {
     let result: Song[] = [...this.songs];
-    
+
     if (method === methods.random) {
       this.randomise(result);
     } else if (method === methods.sortByTime) {
       this.sortByTime(result);
+    } else if (method === methods.alphabetical) {
+      this.sortByAlphabetical(result);
     }
 
     result.forEach((song) => console.log(song));
     return result;
-  }
+  };
 
   private randomise = (result: Song[]): void => {
-    for(let i:number = result.length - 1; i > 0; i--) {
-      const j:number = Math.floor(Math.random() * (i + 1));
-      const temp:Song = result[i];
+    for (let i: number = result.length - 1; i > 0; i--) {
+      const j: number = Math.floor(Math.random() * (i + 1));
+      const temp: Song = result[i];
       result[i] = result[j];
       result[j] = temp;
     }
-  }
+  };
 
   private sortByTime = (result: Song[]): void => {
-    result.sort((a:Song, b:Song) => b.getLength() - a.getLength())
-  }
+    result.sort((a: Song, b: Song) => b.getLength() - a.getLength());
+  };
+
+  private sortByAlphabetical = (result: Song[]): void => {
+    result.sort((a: Song, b: Song) => a.getTitle().localeCompare(b.getTitle()));
+  };
 
   private isSongEqual = (song1: Song, song2: Song): boolean => {
     return (
@@ -62,4 +68,4 @@ class Playlist {
   };
 }
 
-export { Playlist, methods } ;
+export { Playlist, methods };
