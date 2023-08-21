@@ -1,13 +1,18 @@
-import Playlist from "../src/playlist";
+import {Playlist} from "../src/playlist";
 import Song from "../src/song";
+import {methods} from "../src/playlist";
 
 describe("playlist class", () => {
   let playlist: Playlist;
   let song: Song;
+  let populatedPlaylist: Playlist;
 
   beforeEach(() => {
     playlist = new Playlist([]);
     song = new Song("title", "artist", 240);
+    const songLong:Song = new Song("a", "artist", 500);
+    const songShort:Song = new Song("z", "artist", 100);
+    populatedPlaylist = new Playlist([song, songLong, songShort])
   });
 
   test("should initialize", () => {
@@ -44,4 +49,17 @@ describe("playlist class", () => {
       expect(playlist.getSongs()).toEqual([]);
     });
   });
+
+  describe("shuffle method", () => {
+    test("when given the random settings, should randomise the order of songs", () => {
+      const originalOrder:Song[] = populatedPlaylist.getSongs();
+      const shuffledSongs:Song[] = populatedPlaylist.shuffle(methods.random);
+
+      expect(
+        shuffledSongs[0].getTitle().valueOf() === originalOrder[0].getTitle().valueOf() &&
+        shuffledSongs[1].getTitle().valueOf() === originalOrder[1].getTitle().valueOf() &&
+        shuffledSongs[2].getTitle().valueOf() === originalOrder[2].getTitle().valueOf()
+      ).toBe(false);
+    })
+  })
 });
