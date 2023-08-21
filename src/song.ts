@@ -1,26 +1,25 @@
 class Song {
+  private title: string;
+  private artist: string;
+  private length: number;
 
-  private title:string;
-  private artist:string;
-  private length:number;
-
-  constructor(title:string, artist:string, length:number) {
+  constructor(title: string, artist: string, length: number) {
     this.title = title;
     this.artist = artist;
     this.length = length;
   }
 
-  getTitle = ():string => {
+  getTitle = (): string => {
     return this.title;
-  }
+  };
 
-  getArtist = ():string => {
+  getArtist = (): string => {
     return this.artist;
-  }
+  };
 
-  getLength = ():number => {
-    return this.length
-  }
+  getLength = (): number => {
+    return this.length;
+  };
 }
 
 export default Song;
